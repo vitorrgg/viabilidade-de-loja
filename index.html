@@ -113,27 +113,21 @@
                       </h2>
                       
                       <InputField
-                        label="Investimento em Reforma"
+                        label="Investimento em Infraestrutura"
                         value={investimentoReforma}
                         onChange={setInvestimentoReforma}
-                        info="não recuperável"
                       />
                       
                       <InputField
                         label="Investimento em Estoque"
                         value={investimentoEstoque}
                         onChange={setInvestimentoEstoque}
-                        info="recuperável"
                       />
                       
-                      <div className="bg-blue-100 rounded-lg p-3 mb-4 border border-blue-300">
-                        <div className="text-sm font-semibold text-blue-900 mb-1">💡 Sugestão de Estoque:</div>
-                        <div className="text-sm font-bold text-blue-900">{formatCurrency(sugestaoEstoque)}</div>
+                      <div className="bg-blue-100 rounded-lg p-3 mb-4">
+                        <div className="text-sm text-blue-900 mb-1">Estoque sugerido: <strong> {formatCurrency(sugestaoEstoque)} </strong></div>
                         <div className="text-xs text-blue-700 mt-1">
                           2 × CMV mensal
-                        </div>
-                        <div className="text-xs text-blue-700">
-                          2 × {formatCurrency(cmvMensal)}
                         </div>
                       </div>
                       
@@ -144,27 +138,23 @@
                         info="reserva operacional"
                       />
                       
-                      <div className="bg-blue-100 rounded-lg p-3 mb-4 border border-blue-300">
-                        <div className="text-sm font-semibold text-blue-900 mb-1">💡 Sugestão de Capital de Giro:</div>
-                        <div className="text-sm font-bold text-blue-900">{formatCurrency(sugestaoCapitalGiro)}</div>
+                      <div className="bg-blue-100 rounded-lg p-3 mb-4">
+                        <div className="text-sm text-blue-900 mb-1">Giro sugerido: <strong> {formatCurrency(sugestaoCapitalGiro)} </strong></div>
                         <div className="text-xs text-blue-700 mt-1">
                           CMV Mensal + Despesas Fixas
-                        </div>
-                        <div className="text-xs text-blue-700">
-                          {formatCurrency(cmvMensal)} + {formatCurrency(despesaFixa)}
                         </div>
                       </div>
                       
                       <div className="mt-4 pt-4 border-t-2 border-blue-200">
                         <div className="text-lg font-bold text-blue-900">
-                          Investimento Total: {formatCurrency(investimentoTotal)}
+                          Investimento Inicial Total: {formatCurrency(investimentoTotal)}
                         </div>
                       </div>
                     </div>
 
-                    <div className="bg-green-50 rounded-xl p-6 border-2 border-green-200">
+                    <div className="bg-green-50 rounded-xl p-6">
                       <h2 className="text-xl font-bold text-green-900 mb-4">
-                        💰 Lucro bruto mensal
+                        💰Faturamento e Lucro bruto mensal
                       </h2>
                       
                       <InputField
@@ -182,26 +172,32 @@
                       />
                       
                       <InputField
-                          label="Margem de lucro bruta"
+                          label="Margem de Lucro Bruta"
                           info="100 x (Receita Total - Custo dos Produtos Vendidos) / Receita Total"
                           value={margemBruta}
                           onChange={setMargemBruta}
                           prefix=""
                           suffix="%"
                         />
-                        <div className="my-4 py-4 border-t-2 border-green-300">
+                      <div className="my-4 py-4 border-t-2 border-green-300">
                         <div className="text-lg font-bold text-green-900">
-                          Lucro bruto mensal: {formatCurrency(lucroBruto)}
-                        </div>
+                            Faturamento mensal: {formatCurrency(faturamentoEstimado)}
+                          </div>
+                          <div className="text-sm text-green-700 mt-1">
+                            {formatCurrency(ticketMedio)} × {pedidosPorDia} pedidos × 30 dias
+                          </div>
+                          <div className="text-sm text-green-900 mt-2">
+                            Lucro bruto mensal: <strong> {formatCurrency(lucroBruto)} </strong>
+                          </div>
                         <div className="text-sm text-green-700 mt-1">
-                          {pedidosPorDia} pedidos × {formatCurrency(ticketMedio)} × 30 dias x {margemBruta}%
+                          {formatCurrency(faturamentoEstimado)} x {margemBruta}%
                         </div>
                       </div>
                     </div>
 
                     
 
-                    <div className="bg-orange-50 rounded-xl p-6 border-2 border-orange-200">
+                    <div className="bg-orange-50 rounded-xl p-6">
                       <h2 className="text-xl font-bold text-orange-900 mb-4">
                         📊 Custos e Despesas
                       </h2>
