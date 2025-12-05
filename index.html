@@ -154,7 +154,7 @@
 
                     <div className="bg-green-50 rounded-xl p-6">
                       <h2 className="text-xl font-bold text-green-900 mb-4">
-                        💰Faturamento e Lucro bruto mensal
+                        💰Faturamento Lucro bruto mensal
                       </h2>
                       
                       <InputField
@@ -248,57 +248,46 @@
                   </div>
                 </div>
 
-                <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
-                  <h2 className="text-2xl font-bold text-gray-800 mb-6">
-                    Demonstrativo de Resultados Mensal
-                  </h2>
-                  
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center py-2 border-b">
-                      <span className="text-gray-700 font-semibold">Receita Bruta</span>
-                      <span className="text-gray-900 font-bold">{formatCurrency(receitaBruta)}</span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center py-2 border-b">
-                      <span className="text-gray-700">(-) Custo da Mercadoria</span>
-                      <span className="text-red-600">({formatCurrency(custoMercadoria)})</span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center py-2 border-b bg-green-50">
-                      <span className="text-gray-700 font-semibold">= Lucro Bruto</span>
-                      <span className="text-green-700 font-bold">{formatCurrency(lucroBruto)}</span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center py-2 border-b">
-                      <span className="text-gray-700">(-) Despesas Fixas</span>
-                      <span className="text-red-600">({formatCurrency(despesaFixa)})</span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center py-2 border-b">
-                      <span className="text-gray-700">(-) Impostos ({impostoFaturamento}%)</span>
-                      <span className="text-red-600">({formatCurrency(impostos)})</span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center py-2 border-b">
-                      <span className="text-gray-700">(-) Intermediação ({custoIntermediacao}%)</span>
-                      <span className="text-red-600">({formatCurrency(intermediacao)})</span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center py-2 border-b">
-                      <span className="text-gray-700">(-) Custo de Oportunidade ({custoCapital}%)</span>
-                      <span className="text-red-600">({formatCurrency(custoOportunidade)})</span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center py-3 border-t-2 border-gray-300 bg-blue-50 mt-4">
-                      <span className="text-gray-900 font-bold text-lg">= Lucro Líquido Mensal</span>
-                      <span className={`font-bold text-lg ${lucroLiquido >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                        {formatCurrency(lucroLiquido)}
-                      </span>
+                {lucroLiquido <= 0 && (
+                  <div className="mt-6 bg-red-50 border-l-4 border-red-500 rounded-lg p-4 flex items-start gap-3">
+                    <span className="text-red-500 text-2xl">⚠️</span>
+                    <div>
+                      <h4 className="font-bold text-red-800 mb-1">Atenção: Operação com prejuízo!</h4>
+                      <p className="text-red-700 text-sm">
+                        O negócio está operando com prejuízo mensal. É necessário aumentar o faturamento, 
+                        reduzir custos ou melhorar a margem para viabilizar o investimento.
+                      </p>
                     </div>
                   </div>
-                </div>
+                )}
 
-                <div className="grid md:grid-cols-4 gap-6 mb-6">
+                {lucroLiquido > 0 && paybackAnos > 5 && (
+                  <div className="mt-6 bg-yellow-50 border-l-4 border-yellow-500 rounded-lg p-4 flex items-start gap-3">
+                    <span className="text-yellow-600 text-2xl">⚠️</span>
+                    <div>
+                      <h4 className="font-bold text-yellow-800 mb-1">Tempo de retorno elevado</h4>
+                      <p className="text-yellow-700 text-sm">
+                        O payback de {paybackAnos.toFixed(1)} anos é considerado longo para varejo. 
+                        Considere ajustar os parâmetros para melhorar a viabilidade do investimento.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {lucroLiquido > 0 && paybackAnos <= 3 && (
+                  <div className="mt-6 bg-green-50 border-l-4 border-green-500 rounded-lg p-4 flex items-start gap-3">
+                    <span className="text-green-600 text-2xl">✅</span>
+                    <div>
+                      <h4 className="font-bold text-green-800 mb-1">Investimento viável!</h4>
+                      <p className="text-green-700 text-sm">
+                        O payback de {paybackAnos.toFixed(1)} anos indica uma boa oportunidade de investimento.
+                        O ROI anual de {roi.toFixed(1)}% é atrativo para o varejo.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                <div className="grid md:grid-cols-4 gap-6 my-6">
                   <div className="bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl shadow-xl p-6 text-white">
                     <div className="flex items-center gap-3 mb-3">
                       <span className="text-3xl">⏱️</span>
@@ -352,44 +341,55 @@
                   </div>
                 </div>
 
-                {lucroLiquido <= 0 && (
-                  <div className="mt-6 bg-red-50 border-l-4 border-red-500 rounded-lg p-4 flex items-start gap-3">
-                    <span className="text-red-500 text-2xl">⚠️</span>
-                    <div>
-                      <h4 className="font-bold text-red-800 mb-1">Atenção: Operação com prejuízo!</h4>
-                      <p className="text-red-700 text-sm">
-                        O negócio está operando com prejuízo mensal. É necessário aumentar o faturamento, 
-                        reduzir custos ou melhorar a margem para viabilizar o investimento.
-                      </p>
+                <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-6">
+                    Demonstrativo de Resultados Mensal
+                  </h2>
+                  
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center py-2 border-b">
+                      <span className="text-gray-700 font-semibold">Receita Bruta</span>
+                      <span className="text-gray-900 font-bold">{formatCurrency(receitaBruta)}</span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center py-2 border-b">
+                      <span className="text-gray-700">(-) Custo da Mercadoria</span>
+                      <span className="text-red-600">({formatCurrency(custoMercadoria)})</span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center py-2 border-b bg-green-50">
+                      <span className="text-gray-700 font-semibold">= Lucro Bruto</span>
+                      <span className="text-green-700 font-bold">{formatCurrency(lucroBruto)}</span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center py-2 border-b">
+                      <span className="text-gray-700">(-) Despesas Fixas</span>
+                      <span className="text-red-600">({formatCurrency(despesaFixa)})</span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center py-2 border-b">
+                      <span className="text-gray-700">(-) Impostos ({impostoFaturamento}%)</span>
+                      <span className="text-red-600">({formatCurrency(impostos)})</span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center py-2 border-b">
+                      <span className="text-gray-700">(-) Intermediação ({custoIntermediacao}%)</span>
+                      <span className="text-red-600">({formatCurrency(intermediacao)})</span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center py-2 border-b">
+                      <span className="text-gray-700">(-) Custo de Oportunidade ({custoCapital}%)</span>
+                      <span className="text-red-600">({formatCurrency(custoOportunidade)})</span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center py-3 border-t-2 border-gray-300 bg-blue-50 mt-4">
+                      <span className="text-gray-900 font-bold text-lg">= Lucro Líquido Mensal</span>
+                      <span className={`font-bold text-lg ${lucroLiquido >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        {formatCurrency(lucroLiquido)}
+                      </span>
                     </div>
                   </div>
-                )}
-
-                {lucroLiquido > 0 && paybackAnos > 5 && (
-                  <div className="mt-6 bg-yellow-50 border-l-4 border-yellow-500 rounded-lg p-4 flex items-start gap-3">
-                    <span className="text-yellow-600 text-2xl">⚠️</span>
-                    <div>
-                      <h4 className="font-bold text-yellow-800 mb-1">Tempo de retorno elevado</h4>
-                      <p className="text-yellow-700 text-sm">
-                        O payback de {paybackAnos.toFixed(1)} anos é considerado longo para varejo. 
-                        Considere ajustar os parâmetros para melhorar a viabilidade do investimento.
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                {lucroLiquido > 0 && paybackAnos <= 3 && (
-                  <div className="mt-6 bg-green-50 border-l-4 border-green-500 rounded-lg p-4 flex items-start gap-3">
-                    <span className="text-green-600 text-2xl">✅</span>
-                    <div>
-                      <h4 className="font-bold text-green-800 mb-1">Investimento viável!</h4>
-                      <p className="text-green-700 text-sm">
-                        O payback de {paybackAnos.toFixed(1)} anos indica uma boa oportunidade de investimento.
-                        O ROI anual de {roi.toFixed(1)}% é atrativo para o varejo.
-                      </p>
-                    </div>
-                  </div>
-                )}
+                </div>
               </div>
             </div>
           );
