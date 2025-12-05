@@ -52,10 +52,10 @@
           const [impostoFaturamento, setImpostoFaturamento] = useState(5);
           const [custoIntermediacao, setCustoIntermediacao] = useState(2);
           const [investimentoReforma, setInvestimentoReforma] = useState(88200);
-          const [investimentoEstoque, setInvestimentoEstoque] = useState(42000);
-          const [capitalGiro, setCapitalGiro] = useState(25425.32);
+          const [investimentoEstoque, setInvestimentoEstoque] = useState(60000);
+          const [capitalGiro, setCapitalGiro] = useState(50000);
           const [pedidosPorDia, setPedidosPorDia] = useState(25);
-          const [ticketMedio, setTicketMedio] = useState(86.58);
+          const [ticketMedio, setTicketMedio] = useState(100);
           const [custoCapital, setCustoCapital] = useState(1.0);
 
           const faturamentoEstimado = pedidosPorDia * ticketMedio * 30;
@@ -70,6 +70,7 @@
           const custoOportunidade = investimentoTotal * (custoCapital / 100);
           
           const despesasTotais = despesaFixa + impostos + intermediacao + custoOportunidade;
+          const custoTotal = despesasTotais + custoMercadoria
           const lucroLiquido = lucroBruto - despesasTotais;
           
           const paybackMeses = lucroLiquido > 0 ? investimentoTotal / lucroLiquido : Infinity;
@@ -127,7 +128,7 @@
                       
                       <div className="bg-blue-100 rounded-lg p-3 mb-4 border border-blue-300">
                         <div className="text-sm font-semibold text-blue-900 mb-1">💡 Sugestão de Estoque:</div>
-                        <div className="text-lg font-bold text-blue-900">{formatCurrency(sugestaoEstoque)}</div>
+                        <div className="text-sm font-bold text-blue-900">{formatCurrency(sugestaoEstoque)}</div>
                         <div className="text-xs text-blue-700 mt-1">
                           2 × CMV mensal
                         </div>
@@ -145,7 +146,7 @@
                       
                       <div className="bg-blue-100 rounded-lg p-3 mb-4 border border-blue-300">
                         <div className="text-sm font-semibold text-blue-900 mb-1">💡 Sugestão de Capital de Giro:</div>
-                        <div className="text-lg font-bold text-blue-900">{formatCurrency(sugestaoCapitalGiro)}</div>
+                        <div className="text-sm font-bold text-blue-900">{formatCurrency(sugestaoCapitalGiro)}</div>
                         <div className="text-xs text-blue-700 mt-1">
                           CMV Mensal + Despesas Fixas
                         </div>
@@ -163,7 +164,7 @@
 
                     <div className="bg-green-50 rounded-xl p-6 border-2 border-green-200">
                       <h2 className="text-xl font-bold text-green-900 mb-4">
-                        💰 Faturamento Mensal
+                        💰 Lucro bruto mensal
                       </h2>
                       
                       <InputField
@@ -180,28 +181,31 @@
                         onChange={setTicketMedio}
                       />
                       
-                      <div className="mt-4 pt-4 border-t-2 border-green-300">
+                      <InputField
+                          label="Margem de lucro bruta"
+                          info="100 x (Receita Total - Custo dos Produtos Vendidos) / Receita Total"
+                          value={margemBruta}
+                          onChange={setMargemBruta}
+                          prefix=""
+                          suffix="%"
+                        />
+                        <div className="my-4 py-4 border-t-2 border-green-300">
                         <div className="text-lg font-bold text-green-900">
-                          Faturamento: {formatCurrency(faturamentoEstimado)}
+                          Lucro bruto mensal: {formatCurrency(lucroBruto)}
                         </div>
                         <div className="text-sm text-green-700 mt-1">
-                          {pedidosPorDia} pedidos × {formatCurrency(ticketMedio)} × 30 dias
+                          {pedidosPorDia} pedidos × {formatCurrency(ticketMedio)} × 30 dias x {margemBruta}%
                         </div>
                       </div>
                     </div>
+
+                    
 
                     <div className="bg-orange-50 rounded-xl p-6 border-2 border-orange-200">
                       <h2 className="text-xl font-bold text-orange-900 mb-4">
                         📊 Custos e Despesas
                       </h2>
                       
-                      <InputField
-                        label="Margem de Custo"
-                        value={margemBruta}
-                        onChange={setMargemBruta}
-                        prefix=""
-                        suffix="%"
-                      />
                       
                       <InputField
                         label="Despesa Mensal Fixa"
@@ -233,15 +237,15 @@
                         onChange={setCustoCapital}
                         prefix=""
                         suffix="%"
-                        info="custo de oportunidade"
+                        info="custo de oportunidade ou do financiamento"
                       />
                       
                       <div className="mt-4 pt-4 border-t-2 border-orange-300">
                         <div className="text-lg font-bold text-orange-900">
-                          Custo Total Mensal: {formatCurrency(despesasTotais)}
+                          Custo Total Mensal: {formatCurrency(custoTotal)}
                         </div>
                         <div className="text-sm text-orange-700 mt-1">
-                          Despesas fixas + impostos + intermediação + custo de capital
+                          Despesas fixas + impostos + intermediação + custo de capital + custo do produto
                         </div>
                       </div>
                     </div>
